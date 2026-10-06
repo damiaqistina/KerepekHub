@@ -1,2 +1,2 @@
-# SE-Lab-Project
-GitHub repo for Software Engineering Laboratory (TMA3084) Project
+# KerepekHub
+GitHub repo for KerepekHub, a Software Engineering Laboratory (TMA3084) Project by G02_T16
