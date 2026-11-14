@@ -9,6 +9,9 @@ on:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
 
     steps:
       - name: Checkout Repository
@@ -28,12 +31,9 @@ jobs:
 
       - name: Install Dependencies
         run: flutter pub get
-        continue-on-error: true
 
       - name: Run Static Code Analysis
-        run: flutter analyze
-        continue-on-error: true
+        run: flutter analyze --no-fatal-infos
 
       - name: Run Unit & Widget Tests
         run: flutter test --coverage
-        continue-on-error: true
