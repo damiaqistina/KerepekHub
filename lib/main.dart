@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'providers/cart_provider.dart';
+import 'providers/feedback_provider.dart';
 import 'screens/customer/catalog_screen.dart';
+import 'screens/customer/feedback_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => CartProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => FeedbackProvider()),
+      ],
       child: const KerepekHubApp(),
     ),
   );
@@ -27,7 +31,47 @@ class KerepekHubApp extends StatelessWidget {
         colorSchemeSeed: const Color(0xFFF4C430),
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const CatalogScreen(),
+      home: const CustomerShell(),
+    );
+  }
+}
+
+class CustomerShell extends StatefulWidget {
+  const CustomerShell({super.key});
+
+  @override
+  State<CustomerShell> createState() => _CustomerShellState();
+}
+
+class _CustomerShellState extends State<CustomerShell> {
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = const [
+    CatalogScreen(), // UI-02 (teammate's screen)
+    FeedbackScreen(), // UI-06 (your screen)
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[_currentIndex],
+      bottomNavigationBar: NavigationBar(
+        backgroundColor: Colors.white,
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (index) => setState(() => _currentIndex = index),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.storefront_outlined),
+            selectedIcon: Icon(Icons.storefront),
+            label: 'Catalog',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.star_outline),
+            selectedIcon: Icon(Icons.star),
+            label: 'Reviews',
+          ),
+        ],
+      ),
     );
   }
 }
