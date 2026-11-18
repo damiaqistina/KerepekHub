@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'providers/cart_provider.dart';
 import 'providers/feedback_provider.dart';
+import 'providers/order_provider.dart';
 import 'screens/customer/catalog_screen.dart';
 import 'screens/customer/feedback_screen.dart';
+import 'screens/customer/order_history_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +15,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => FeedbackProvider()),
+        ChangeNotifierProvider(create: (_) => OrderProvider()),
       ],
       child: const KerepekHubApp(),
     ),
@@ -46,15 +50,18 @@ class CustomerShell extends StatefulWidget {
 class _CustomerShellState extends State<CustomerShell> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = const [
-    CatalogScreen(), // UI-02 (teammate's screen)
-    FeedbackScreen(), // UI-06 (your screen)
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> screens = [
+      const CatalogScreen(), // UI-02
+      OrderHistoryScreen(
+        onBackToHomeTap: () => setState(() => _currentIndex = 0),
+      ), // UI-05
+      const FeedbackScreen(), // UI-06
+    ];
+
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: screens[_currentIndex],
       bottomNavigationBar: NavigationBar(
         backgroundColor: Colors.white,
         selectedIndex: _currentIndex,
@@ -64,6 +71,11 @@ class _CustomerShellState extends State<CustomerShell> {
             icon: Icon(Icons.storefront_outlined),
             selectedIcon: Icon(Icons.storefront),
             label: 'Catalog',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.receipt_long_outlined),
+            selectedIcon: Icon(Icons.receipt_long),
+            label: 'Orders',
           ),
           NavigationDestination(
             icon: Icon(Icons.star_outline),
