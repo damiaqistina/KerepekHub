@@ -4,7 +4,8 @@ import '../../models/feedback_model.dart';
 import '../../providers/feedback_provider.dart';
 
 class FeedbackScreen extends StatefulWidget {
-  const FeedbackScreen({super.key});
+  final String? initialOrderId; //why String?: bcs initialOrderId is an optional parameters
+  const FeedbackScreen({super.key, this.initialOrderId});
 
   @override
   State<FeedbackScreen> createState() => _FeedbackScreenState();
@@ -13,6 +14,7 @@ class FeedbackScreen extends StatefulWidget {
 class _FeedbackScreenState extends State<FeedbackScreen> {
   int _selectedRating = 0;
   DeliveredOrder? _selectedOrder;
+  bool _isAnonymous = false;
   final TextEditingController _commentController = TextEditingController();
 
   @override
@@ -46,12 +48,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       order: targetOrder,
       rating: _selectedRating,
       comment: _commentController.text,
+      isAnonymous: _isAnonymous,
     );
 
     setState(() {
       _selectedOrder = null;
       _selectedRating = 0;
       _commentController.clear();
+      _isAnonymous = false;
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -69,9 +73,15 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     final reviews = feedbackProvider.reviews;
     final hasEligible = eligibleOrders.isNotEmpty;
 
-    if (hasEligible &&
-        (_selectedOrder == null || !eligibleOrders.contains(_selectedOrder))) {
-      _selectedOrder = eligibleOrders.first;
+    if (hasEligible && (_selectedOrder == null || !eligibleOrders.contains(_selectedOrder))) {
+      if(widget.initialOrderId != null){
+        _selectedOrder = eligibleOrders.firstWhere(
+          (o) => o.orderID == widget.initialOrderId, orElse: () => eligibleOrders.first,
+        );
+      }
+      else{
+        _selectedOrder = eligibleOrders.first;
+      }
     }
 
     return Scaffold(
@@ -88,7 +98,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         title: Row(
           children: [
             Image.asset(
-              'assets/images/logo_kerepekhub.png',
+              'assets/images/kerepekhub_logo_font.png',
               height: 24,
               fit: BoxFit.contain,
               errorBuilder: (_, _, _) => const Text(
@@ -100,7 +110,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width:6),
             const Text(
               'Reviews',
               style: TextStyle(
@@ -258,7 +268,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     style: const TextStyle(fontSize: 13.5),
                     decoration: InputDecoration(
                       hintText:
-                          'Share your experience with Serooja snacks (optional)...',
+                          'Share your feedback for your order (optional)...',
                       hintStyle: const TextStyle(
                         color: Color(0xFF888888),
                         fontSize: 13,
@@ -282,6 +292,42 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
+
+                  //Post Anonymously
+                  InkWell(
+                    onTap: hasEligible
+                        ? () => setState(() => _isAnonymous = !_isAnonymous)
+                        : null,
+                    borderRadius: BorderRadius.circular(6),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 24,
+                          height: 48,
+                          child: Checkbox(
+                            value: _isAnonymous,
+                            activeColor: const Color(0xFF222222),
+                            onChanged: hasEligible
+                                ? (val) => setState(
+                                    () => _isAnonymous = val ?? false)
+                                : null,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Post anonymously',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: hasEligible
+                                ? const Color(0xFF333333)
+                                : const Color(0xFF999999),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 6),
                   SizedBox(
                     width: double.infinity,
                     height: 48,
@@ -313,7 +359,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             ),
             const SizedBox(height: 22),
             const Text(
-              'Recent customer reviews',
+              'Recent Shop Reviews',
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
@@ -342,7 +388,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${rev.custName} • ${rev.orderID}',
+                            rev.custName,
                             style: const TextStyle(
                               fontSize: 13.5,
                               fontWeight: FontWeight.w700,

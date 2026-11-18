@@ -121,11 +121,24 @@ class _CatalogScreenState extends State<CatalogScreen> {
           onPressed: () => Navigator.maybePop(context),
         ),
         titleSpacing: 0,
-        // KerepekHub's logo
-        title: Image.asset(
-          'assets/images/logo_kerepekhub.png',
+        // KerepekHub's logo 
+        title: Row(
+          children: [
+            Image.asset(
+          'assets/images/kerepekhub_logo_font.png',
           height: 24,
           fit: BoxFit.contain,
+        ),
+        const SizedBox(width:6),
+            const Text(
+              'Menu',
+              style: TextStyle(
+                color: Color(0xFF222222),
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+            ),
+          ]
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),

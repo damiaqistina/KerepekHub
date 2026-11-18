@@ -4,24 +4,23 @@ import '../models/feedback_model.dart';
 class FeedbackProvider extends ChangeNotifier {
   final List<DeliveredOrder> _orders = [
     DeliveredOrder(
-      orderID: 'ORD-1024',
-      custName: 'Siti Aisyah',
+      orderID: 'ORD-1042',
+      custName: 'Nic Co',
       itemsSummary: [
-        '1x Crunchy Spicy Cheese (Packet)',
-        '1x Seaweed Original (Packet)',
+        '1x Crunchy Nestum Milk (Packet)'
       ],
-      totalMyr: 18.00,
-      date: '12 Nov 2026',
+      totalMyr: 9.00,
+      date: '15 Nov 2026',
       isReviewed: false,
     ),
     DeliveredOrder(
-      orderID: 'ORD-1023',
-      custName: 'Siti Aisyah',
+      orderID: 'ORD-1038',
+      custName: 'Nic Co',
       itemsSummary: [
-        '2x Crunchy Nestum Milk (Packet)',
+        '2x Seaweed Spicy Cheese (Packet)'
       ],
-      totalMyr: 18.00,
-      date: '09 Nov 2026',
+      totalMyr: 19.00,
+      date: '12 Nov 2026',
       isReviewed: false,
     ),
   ];
@@ -30,7 +29,7 @@ class FeedbackProvider extends ChangeNotifier {
     const CustomerReview(
       id: 'REV-001',
       orderID: 'ORD-1020',
-      custName: 'Ainur Hanum',
+      custName: 'Anonymous',
       itemsOrdered: 'Crunchy Spicy Cheese (Packet)',
       rating: 5,
       comment:
@@ -40,11 +39,11 @@ class FeedbackProvider extends ChangeNotifier {
     const CustomerReview(
       id: 'REV-002',
       orderID: 'ORD-1018',
-      custName: 'Damia Qistina',
+      custName: 'Della',
       itemsOrdered: 'Seaweed Original (Packet)',
       rating: 4,
       comment: 'Fresh packaging and fast self-collection pickup at Serooja.',
-      date: '02 Nov 2026',
+      date: '31 Oct 2026',
     ),
   ];
 
@@ -63,6 +62,7 @@ class FeedbackProvider extends ChangeNotifier {
     required DeliveredOrder order,
     required int rating,
     required String comment,
+    bool isAnonymous = false,
   }) {
     final cleanComment = comment.trim().isEmpty
         ? 'Great service and delicious kerepek!'
@@ -73,7 +73,7 @@ class FeedbackProvider extends ChangeNotifier {
       CustomerReview(
         id: 'REV-00${_reviews.length + 1}',
         orderID: order.orderID,
-        custName: order.custName,
+        custName: isAnonymous? 'Anonymous' : 'Adilla',
         itemsOrdered: order.itemsSummary.join(', '),
         rating: rating,
         comment: cleanComment,
@@ -81,7 +81,7 @@ class FeedbackProvider extends ChangeNotifier {
       ),
     );
 
-    order.isReviewed = true;
+    _orders.removeWhere((o) => o.orderID == order.orderID);
     notifyListeners();
   }
 }
