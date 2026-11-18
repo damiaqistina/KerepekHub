@@ -130,7 +130,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const FeedbackScreen()),
+      MaterialPageRoute(builder: (_) => FeedbackScreen(initialOrderId: order.orderId),
+      ),
     );
   }
 
@@ -272,25 +273,25 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
               },
         ),
         titleSpacing: 0,
-        title: RichText(
-          text: const TextSpan(
-            style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.w800,
-              color: _brandCharcoal,
+        
+        //Kerepek hub logo
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/images/kerepekhub_logo_font.png',
+              height: 24,
+              fit: BoxFit.contain,
             ),
-            children: [
-              TextSpan(text: 'Kerepek'),
-              TextSpan(
-                text: 'Hub ',
-                style: TextStyle(color: Color(0xFFF4C430)),
+            const SizedBox(width: 6),
+            const Text(
+              'Order History',
+              style: TextStyle(
+                color: Color(0xFF222222),
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
               ),
-              TextSpan(
-                text: 'Order History',
-                style: TextStyle(fontWeight: FontWeight.w700),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
@@ -515,8 +516,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                                             ),
                                           ),
                                         ),
-                                        onPressed: () =>
-                                            _handleLeaveReview(context, order),
+                                        onPressed: () => _handleLeaveReview(context, order),
                                         child: const Text(
                                           'Leave a review',
                                           style: TextStyle(
