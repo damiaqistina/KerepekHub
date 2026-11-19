@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e53f420-47a4-4ab2-bdc9-068674aef878" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kerepekhub.iml" beforeDir="false" afterPath="$PROJECT_DIR$/kerepekhub.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/widget_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/widget_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/images/logo_kerepekhub.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/providers/feedback_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/providers/feedback_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/screens/customer/catalog_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/screens/customer/catalog_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/screens/customer/feedback_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/screens/customer/feedback_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/screens/customer/order_history_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/screens/customer/order_history_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +67,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feat/ui-06-customer-feedback",
     "io.flutter.project.isFirstOpen": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Y3_sem1/TMA3084 SE lab/project github/KerepekHub",

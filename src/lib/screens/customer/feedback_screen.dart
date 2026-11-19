@@ -260,36 +260,69 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     }),
                   ),
                   const SizedBox(height: 8),
-                  TextField(
-                    controller: _commentController,
-                    enabled: hasEligible,
-                    maxLength: 500,
-                    maxLines: 3,
-                    style: const TextStyle(fontSize: 13.5),
-                    decoration: InputDecoration(
-                      hintText:
-                          'Share your feedback for your order (optional)...',
-                      hintStyle: const TextStyle(
-                        color: Color(0xFF888888),
-                        fontSize: 13,
-                      ),
-                      contentPadding: const EdgeInsets.all(12),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Color(0xFFCCCCCC)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF222222),
-                          width: 1.2,
-                        ),
-                      ),
-                      disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Color(0xFFEEEEEE)),
-                      ),
-                    ),
+                  Builder(
+                    builder: (context) {
+                      final int charCount = _commentController.text.trim().length;
+                      final bool isOverLimit = charCount > 500;
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          TextField(
+                            controller: _commentController,
+                            enabled: hasEligible,
+                            maxLines: 3,
+                            onChanged: (_) => setState(() {}),
+                            style: const TextStyle(fontSize: 13.5),
+                            decoration: InputDecoration(
+                              hintText:
+                                  'Share your feedback for your order (optional)...',
+                              hintStyle: const TextStyle(
+                                color: Color(0xFF888888),
+                                fontSize: 13,
+                              ),
+                              contentPadding: const EdgeInsets.all(12),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: isOverLimit
+                                      ? const Color(0xFFE53935)
+                                      : const Color(0xFFCCCCCC),
+                                  width: isOverLimit ? 1.4 : 1.0,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: isOverLimit
+                                      ? const Color(0xFFE53935)
+                                      : const Color(0xFF222222),
+                                  width: 1.4,
+                                ),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    const BorderSide(color: Color(0xFFEEEEEE)),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '$charCount/500',
+                            style: TextStyle(
+                              fontSize: 11.5,
+                              fontWeight: isOverLimit
+                                  ? FontWeight.w700
+                                  : FontWeight.w400,
+                              color: isOverLimit
+                                  ? const Color(0xFFE53935)
+                                  : const Color(0xFF777777),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 10),
 
