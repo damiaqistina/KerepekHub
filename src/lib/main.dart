@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:kerepekhub/screens/owner/authentication.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/cart_provider.dart';
@@ -7,6 +9,7 @@ import 'providers/order_provider.dart';
 import 'screens/customer/catalog_screen.dart';
 import 'screens/customer/feedback_screen.dart';
 import 'screens/customer/order_history_screen.dart';
+import 'screens/owner/payment_verification_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +19,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => FeedbackProvider()),
         ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentProvider()),
       ],
       child: const KerepekHubApp(),
     ),
@@ -35,7 +39,7 @@ class KerepekHubApp extends StatelessWidget {
         colorSchemeSeed: const Color(0xFFF4C430),
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const CustomerShell(),
+      home: const PaymentVerificationScreen(),
     );
   }
 }
