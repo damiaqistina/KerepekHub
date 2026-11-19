@@ -39,7 +39,9 @@ class KerepekHubApp extends StatelessWidget {
         colorSchemeSeed: const Color(0xFFF4C430),
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const PaymentVerificationScreen(),
+      home: const CustomerShell(),
+      routes: {"/payments": (context) => const PaymentVerificationScreen()
+      },
     );
   }
 }
