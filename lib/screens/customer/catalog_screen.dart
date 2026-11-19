@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'product_detail_screen.dart';
 import '../../models/product.dart';
 import '../../providers/cart_provider.dart';
 
@@ -17,6 +17,15 @@ class _CatalogScreenState extends State<CatalogScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   bool _sortAscending = true;
+
+  void _openProductDetail(Product product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ProductDetailScreen(product: product),
+      ),
+    );
+  }
 
   // Mock data for M2 demo using Serooja's snack images
   final List<Product> _allProducts = const [
@@ -237,6 +246,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                         quantityInCart: qtyInCart,
                         onAdd: () => _handleAdd(cart, product),
                         onRemove: () => cart.removeOneItem(product.id),
+                        onProductTap: () => _openProductDetail(product),
                       );
                     },
                   ),
@@ -338,12 +348,14 @@ class _ProductCard extends StatelessWidget {
   final int quantityInCart;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
+  final VoidCallback onProductTap;
 
   const _ProductCard({
     required this.product,
     required this.quantityInCart,
     required this.onAdd,
     required this.onRemove,
+    required this.onProductTap,
   });
 
   @override
@@ -355,48 +367,54 @@ class _ProductCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Snack thumbnail (faded slightly if out of stock)
-        AspectRatio(
-          aspectRatio: 1.2,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: Opacity(
-              opacity: isOutOfStock ? 0.55 : 1.0,
-              child: product.imageUrl.startsWith('http')
-                  ? Image.network(
-                      product.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) => Container(
-                        color: const Color(0xFFF5F5F5),
-                        child: const Icon(
-                          Icons.fastfood,
-                          color: Colors.grey,
-                          size: 36,
+        GestureDetector(
+          onTap: onProductTap,
+          child: AspectRatio(
+            aspectRatio: 1.2,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Opacity(
+                opacity: isOutOfStock ? 0.55 : 1.0,
+                child: product.imageUrl.startsWith('http')
+                    ? Image.network(
+                        product.imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => Container(
+                          color: const Color(0xFFF5F5F5),
+                          child: const Icon(
+                            Icons.fastfood,
+                            color: Colors.grey,
+                            size: 36,
+                          ),
+                        ),
+                      )
+                    : Image.asset(
+                        product.imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => Container(
+                          color: const Color(0xFFF5F5F5),
+                          child: const Icon(
+                            Icons.fastfood,
+                            color: Colors.grey,
+                            size: 36,
+                          ),
                         ),
                       ),
-                    )
-                  : Image.asset(
-                      product.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) => Container(
-                        color: const Color(0xFFF5F5F5),
-                        child: const Icon(
-                          Icons.fastfood,
-                          color: Colors.grey,
-                          size: 36,
-                        ),
-                      ),
-                    ),
+              ),
             ),
           ),
         ),
+
         const SizedBox(height: 8),
 
         // Snack name
-        Text(
-          product.name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
+        GestureDetector(
+          onTap: onProductTap,
+          child: Text(
+            product.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
             fontSize: 13.5,
             fontWeight: FontWeight.w700,
             color: isOutOfStock
@@ -404,7 +422,8 @@ class _ProductCard extends StatelessWidget {
                 : const Color(0xFF222222),
           ),
         ),
-        const SizedBox(height: 2),
+      ),
+      const SizedBox(height: 2),
 
         // Price tag
         Text(
